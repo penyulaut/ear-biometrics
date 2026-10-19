@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Earuna — Identifikasi telinga</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">耳</span>
+        <span><strong>Earuna</strong><small>BIOMETRIK TELINGA</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="avatar">AP</span><span>Admin penelitian</span
+        ><i class="bi bi-chevron-down"></i>
+      </div>
+    </header>
+    <div class="layout">
+      <aside class="sidebar">
+        <p class="eyebrow">RUANG KERJA</p>
+        <nav>
+          <button type="button" class="nav-item active" data-view="upload">
+            <i class="bi bi-ear"></i>Identifikasi telinga
+          </button>
+          <button type="button" class="nav-item" data-view="identity">
+            <i class="bi bi-person-vcard"></i>Data identitas
+          </button>
+          <button type="button" class="nav-item" data-view="history">
+            <i class="bi bi-clock-history"></i>Riwayat identifikasi
+          </button>
+        </nav>
+        <div class="research-note">
+          <strong><i class="bi bi-flask"></i><br />Ruang penelitian</strong>
+          <p>Identifikasi Telinga</p>
+        </div>
+        <small class="version">Aurika v1.0 · Prototipe antarmuka</small>
+      </aside>
+      <main class="content">
+        <div class="breadcrumb">Ruang kerja › Identifikasi telinga</div>
+        <div class="page-heading">
+          <div>
+            <h1 id="page-title">Identifikasi biometrik telinga</h1>
+            <p id="page-subtitle">
+              Unggah foto telinga, lalu cocokkan dengan identitas yang sudah
+              terdaftar.
+            </p>
+          </div>
+          <span id="state-pill" class="state-pill"
+            ><i class="bi bi-circle-fill"></i> Menunggu gambar</span
+          >
+        </div>
+        <div class="steps">
+          <span class="step active"><b>1</b>Unggah gambar</span><i></i
+          ><span class="step" id="step-identify"><b>2</b>Identifikasi</span
+          ><i></i><span class="step" id="step-result"><b>3</b>Lihat hasil</span>
+        </div>
+        <div id="notice" class="notice hidden"></div>
+        <section id="upload-view" class="view-grid">
+          <div class="card upload-card">
+            <h2>Tambahkan foto telinga</h2>
+            <p class="muted">
+              Pilih file dari perangkat atau ambil foto dengan kamera.
+            </p>
+            <div id="dropzone" class="dropzone">
+              <div class="upload-icon">
+                <i class="bi bi-cloud-arrow-up"></i>
+              </div>
+              <strong>Seret dan lepas foto di sini</strong
+              ><span>atau pilih gambar dari perangkat Anda</span
+              ><button id="choose-btn" class="primary">
+                <i class="bi bi-folder2-open"></i> Pilih file</button
+              ><small>JPG, JPEG, atau PNG · Maks. 10 MB</small
+              ><input
+                id="file-input"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+              />
+            </div>
+            <div class="camera-row">
+              <div>
+                <strong>Ingin mengambil foto langsung?</strong
+                ><span>Izinkan akses kamera perangkat Anda.</span>
+              </div>
+              <button id="camera-btn" class="outline">
+                <i class="bi bi-camera"></i> Ambil foto
+              </button>
+            </div>
+            <label class="consent"
+              ><input type="checkbox" id="consent" /> Saya memiliki izin untuk
+              menggunakan foto ini dalam proses identifikasi biometrik.</label
+            >
+            <div class="upload-footer">
+              <span id="file-status"
+                ><i class="bi bi-file-earmark-image"></i> Belum ada gambar
+                dipilih</span
+              ><button id="identify-btn" class="primary" disabled>
+                <i class="bi bi-search"></i> Identifikasi telinga
+              </button>
+            </div>
+          </div>
+          <aside class="guide card">
+            <h3><i class="bi bi-lightbulb"></i> Panduan foto yang baik</h3>
+            <div>
+              <b><i class="bi bi-sun"></i> Pencahayaan merata</b
+              ><span>Gunakan cahaya yang terang tanpa bayangan tajam.</span>
+            </div>
+            <div>
+              <b><i class="bi bi-person-standing"></i> Telinga terlihat utuh</b
+              ><span
+                >Singkirkan rambut dan aksesori yang menutupi telinga.</span
+              >
+            </div>
+            <div>
+              <b><i class="bi bi-image"></i> Foto tajam dari samping</b
+              ><span>Posisikan kamera sejajar. Hindari foto buram.</span>
+            </div>
+            <small
+              >Disarankan minimal 640 × 640 piksel, dengan satu telinga dalam
+              gambar.</small
+            >
+            <div class="guide-bottom">
+              <b>Apa yang akan ditampilkan?</b
+              ><span
+                >Pratinjau foto, nama dan ID yang cocok, serta tingkat kecocokan
+                terhadap identitas terdaftar.</span
+              >
+            </div>
+          </aside>
+        </section>
+        <section id="result-view" class="result-grid hidden">
+          <div class="card photo-card">
+            <div class="card-title">
+              <h2>Foto yang diunggah</h2>
+              <span class="tag">TELINGA KANAN</span>
+            </div>
+            <div class="preview">
+              <img id="preview" alt="Pratinjau foto telinga" />
+            </div>
+            <div class="file-meta">
+              <span><i class="bi bi-file-earmark-image"></i></span>
+              <div>
+                <strong id="result-filename">foto-telinga.jpg</strong
+                ><small>1,8 MB · 1.280 × 1.280 px</small>
+              </div>
+            </div>
+            <div class="quality">
+              Kualitas gambar<strong>◎ Baik</strong>
+            </div>
+          </div>
+          <div class="card identity-card">
+            <div class="match-title">
+              <span
+                ><i class="bi bi-check-circle-fill"></i> Identitas cocok
+                ditemukan</span
+              ><small>DATA DEMO</small>
+            </div>
+            <div class="person">
+              <span class="person-avatar" id="person-avatar">RP</span>
+              <div>
+                <h2 id="result-name">Ripan Putra</h2>
+                <p>ID identitas: <strong id="result-id">AUR-00128</strong></p>
+                <a>Identitas terdaftar ›</a>
+              </div>
+            </div>
+            <div class="confidence">
+              <small>Tingkat kecocokan</small
+              ><strong id="confidence">98,6%</strong
+              ><span><i class="bi bi-circle-fill"></i> Kecocokan tinggi</span>
+              <div><i id="confidence-bar"></i></div>
+              <em
+                >Nilai contoh untuk menunjukkan tampilan hasil. Bukan bukti atau
+                jaminan identitas seseorang.</em
+              >
+            </div>
+            <div class="details">
+              <span
+                >Status pengenalan<strong>Selesai (demonstrasi)</strong></span
+              ><span>Sumber identitas<strong>Basis data contoh</strong></span>
+            </div>
+            <button id="another-btn" class="primary wide">
+              <i class="bi bi-arrow-repeat"></i> Identifikasi gambar lain
+            </button>
+          </div>
+        </section>
+        <section id="identity-view" class="card hidden">
+          <div class="identity-header">
+            <div>
+              <h2>Data identitas</h2>
+              <p class="muted">
+                Daftar orang yang terdaftar pada sistem identifikasi telinga.
+              </p>
+            </div>
+            <span id="identity-count" class="state-pill">0 orang</span>
+          </div>
+          <div class="table-wrapper">
+            <table class="identity-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>ID Identitas</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="identity-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+        <div class="privacy">
+          <strong
+            ><i class="bi bi-shield-lock"></i> Data biometrik bersifat
+            sensitif</strong
+          ><span
+            >Gunakan foto milik Anda atau foto dengan persetujuan pemiliknya.
+            Tampilan ini adalah demonstrasi; tidak ada analisis biometrik nyata
+            atau penyimpanan foto.</span
+          >
+        </div>
+        <footer>
+          Untuk demonstrasi penelitian, bukan untuk keputusan verifikasi
+          identitas.
+          <span><i class="bi bi-info-circle"></i> Pusat bantuan</span>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
